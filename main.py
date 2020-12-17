@@ -23,6 +23,7 @@ def Menu(Titulo, Opcoes, np):
             break
     return op
 
+nome_ficheiro_Tweets = "tweets.html"
 
 def LerData(msg, min=None, max=None):
     from datetime import datetime
@@ -48,6 +49,29 @@ data_min = datetime.strptime("1000-01-01", '%Y-%m-%d')
 data_max = datetime.strptime("2019-12-31", '%Y-%m-%d')
 
 
+def Inserir():
+    print("Inserir Tweets")
+
+    while True:
+        NomeTweets = input("Inserir Nome de Tweets")
+        if NomeTweets != "":
+            break
+    while True:
+        EmailTweets = input("Inserir Email de Tweets")
+        if EmailTweets != "":
+            break
+    while True:
+        IdadeTweets = input("Inserir Idade de Tweets")
+        if IdadeTweets != "":
+            break
+
+    f = open(nome_ficheiro_Tweets, "at")
+    print("%s <br>" % NomeTweets, file=f, sep='\n')
+    print("%s <br>" % EmailTweets, file=f, sep='\n')
+    print("%s <br>" % IdadeTweets, file=f, sep='\n')
+
+
+    input("Prima enter para continuar!")
 
 
 def MenuPrincipal():
@@ -60,7 +84,7 @@ def MenuPrincipal():
 
         op = Menu(Titulo, Opcoes, np)
         if op == 1:
-            print("Inserir")
+            Inserir()
         elif op == 2:
             print("Alterar")
         elif op == 3:
