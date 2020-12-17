@@ -46,7 +46,7 @@ def LerData(msg, min=None, max=None):
 from datetime import datetime
 
 data_min = datetime.strptime("1000-01-01", '%Y-%m-%d')
-data_max = datetime.strptime("2019-12-31", '%Y-%m-%d')
+data_max = datetime.strptime("2021-12-31", '%Y-%m-%d')
 
 
 def Inserir():
