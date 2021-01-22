@@ -1,10 +1,46 @@
 
+def ValidaNome(nome):
+    import re
+    regex = r"[A-Z][a-z]{1,8}([a-z]{1,4}){0,1}( [A-Z][a-z]{2,8}){0,4}"
+    matches = re.finditer(regex, nome, re.MULTILINE)
+    matchNum = 0
+    for matchNum, match in enumerate(matches):
+        matchNum = matchNum + 1
+    if matchNum == 1:
+        return True
+    else:
+        return False
+
+def ValidaEmail(email):
+    import re
+    regex = r"^[a-zA-Z0-9._-]+@[a-zA-Z0-9]+\.[a-zA-Z\.a-zA-Z]{1,3}$"
+    matches = re.finditer(regex, email, re.MULTILINE)
+    matchNum = 0
+    for matchNum, match in enumerate(matches):
+        matchNum = matchNum + 1
+    if matchNum == 1:
+        return True
+    else:
+        return False
+
+def ValidaIdade(Idade):
+    import re
+    regex = r"[0-9]{1,3}"
+    matches = re.finditer(regex, Idade, re.MULTILINE)
+    matchNum = 0
+    for matchNum, match in enumerate(matches):
+        matchNum = matchNum + 1
+    if matchNum == 1:
+        return True
+    else:
+        return False
 def Menu(Titulo, Opcoes, np):
     print("\t\t\t\t\t\t\t\t\033[1;33;m----------------------------\033[m")
     print("\t\t\t\t\t\t\t\t\033[1;32;mPrograma do Algoritmo Tweets\033[m")
     print("\t\t\t\t\t\t\t\t\033[1;33;m----------------------------\033[m")
-    from datetime import datetime
 
+
+    from datetime import datetime
     agora = datetime.now()
     # print(agora)
     print("\033[1;30;mData: ", agora.strftime("%Y-%m-%d\033[m"))
@@ -49,30 +85,34 @@ data_min = datetime.strptime("1000-01-01", '%Y-%m-%d')
 data_max = datetime.strptime("2021-12-31", '%Y-%m-%d')
 
 
+
+
+
 def Inserir():
     print("Inserir Tweets")
 
     while True:
         NomeTweets = input("Inserir Nome de Tweets")
-        if NomeTweets != "":
+        if ValidaNome(NomeTweets) == True:
             break
     while True:
         EmailTweets = input("Inserir Email de Tweets")
-        if EmailTweets != "":
+        if ValidaEmail(EmailTweets) == True:
             break
     while True:
         IdadeTweets = input("Inserir Idade de Tweets")
-        if IdadeTweets != "":
+        if ValidaIdade(IdadeTweets) == True:
             break
 
     f = open(nome_ficheiro_Tweets, "at")
-    print("%s <br>" % NomeTweets, file=f, sep='\n')
-    print("%s <br>" % EmailTweets, file=f, sep='\n')
-    print("%s <br>" % IdadeTweets, file=f, sep='\n')
+    print("%s" % NomeTweets, file=f, sep='\n')
+    print("%s" % EmailTweets, file=f, sep='\n')
+    print("%s<br/>" % IdadeTweets, file=f, sep='\n')
 
 
     input("Prima enter para continuar!")
-
+def Alterar():
+    print("Alterar Tweets")
 
 def MenuPrincipal():
     print("\n")
