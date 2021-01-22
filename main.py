@@ -105,14 +105,145 @@ def Inserir():
             break
 
     f = open(nome_ficheiro_Tweets, "at")
-    print("%s" % NomeTweets, file=f, sep='\n')
-    print("%s" % EmailTweets, file=f, sep='\n')
-    print("%s<br/>" % IdadeTweets, file=f, sep='\n')
+    print("%s" % NomeTweets, file=f, end='\t', sep='')
+    print("%s" % EmailTweets, file=f, end='\t', sep='')
+    print("%s" % IdadeTweets, file=f)
 
 
     input("Prima enter para continuar!")
 def Alterar():
-    print("Alterar Tweets")
+    f = open(nome_ficheiro_Tweets, "rt")
+    cabecalho = f.readline()
+    tweets = f.readlines()
+    f.close()
+    nome = input("Nome? ")
+    for i in range(len(tweets)):
+        j = tweets[i]
+        if len(j) < 5:
+            continue
+
+
+        Nome, Email, Idade = j.split("\t")
+        if (Nome.find(nome)) >= 0:
+            # print(j)
+            print("Tweets com'%s'no Nome encontrado" % nome)
+            print("Nome...............: %s" % Nome)
+            print("Email..............: %s" % Email)
+            print("Idade..............: %s" % Idade)
+            o = input("Quer alterar ?(S/N)")
+            if o == "S":  # novos dados
+                while True:
+                    Nome = input("Inserir novo Nome do Clube?")
+                    if ValidaNome(Nome) == True:
+                        break
+                f = open("tweets.txt", "wt")  # gravar novos dados no ficheiro
+                print(cabecalho, file=f, end='')
+                for k in range(len(tweets)):
+                    if k == i:
+                        print(Nome, Email, Idade,
+                              sep='\t', file=f, end='')
+                    else:
+                        print(tweets[k], file=f, end='')
+                f.close()
+            elif o != 'S':
+                break
+    print("Fim da Alteração!")
+    input("Prima enter para continuar!")
+
+def Eliminar():
+    f = open(nome_ficheiro_Tweets, "rt")
+    cabecalho = f.readline()
+    tweets = f.readlines()
+    f.close()
+    nome = input("Nome?")
+    for i in range(len(tweets)):
+        j = tweets[i]
+        if len(j) < 3:
+            continue
+        # Jogador	Equipa	Posição	JJ	G
+        Nome, Email, Idade = j.split("\t")
+        if (Nome.find(nome)) >= 0:
+            # print(j)
+            print("Tweets com'%s'no Nome encontrado" % nome)
+            print("Nome...............: %s" % Nome)
+            print("Email..............: %s" % Email)
+            print("Idade..............: %s" % Idade)
+            o = input("Quer eliminar ?(S/N)")
+            if o == "S":  # novos dados
+
+                f = open("tweets.txt", "wt")  # gravar novos dados no ficheiro
+                print(cabecalho, file=f, end='')
+                for k in range(len(tweets)):
+                    if k != i:
+                        print(tweets[k], file=f, end='')
+                f.close()
+                f = open("log_tweets.txt", "at")
+                print("Operação:" "eliminar" + " Tweets")
+                print("\n")
+                f.close()
+            elif o != 'S':
+                break
+    print("Fim da Eliminação de Tweets!")
+    input("Prima enter para continuar!")
+
+def Listar():
+    print("Listas de Todos os Tweets!")
+    f = open(nome_ficheiro_Tweets, "rt")
+    linhas = f.readlines()  # vector
+    f.close()
+    # print("\n\033[1;mListagem de todos os Clubes\n")
+    print("%s %s %s" % (
+        "Nome", "Email", "Idade"))
+    for i in range(1, len(linhas)):
+        r = linhas[i]
+        r = r.rstrip('\n')
+        colunas = r.split('\t')  # vetor
+        Nome = colunas[0]
+        Email = colunas[1]
+        Idade = colunas[2]
+        # Numero_Modalidades = colunas[3]
+        print("%s %s %s" % (Nome, Email, Idade))
+        print("")
+    input("Prima enter para continuar!")
+
+def Pesquisar():
+    # pedir o nome a procurar
+    # Ler o ficheiro para um vetor
+    # comparar o nome de cada elemento do
+    # vetor com o nome_procurar
+    # nome_procurar = LerNome()
+    nome_procurar = input("Nome a procurar?")
+    f = open(nome_ficheiro_Tweets, "rt")
+    linhas = f.readlines()  # vetor
+    f.close()
+    enc = False
+    for linha in linhas:
+        nome = linha[0:49]
+        data = linha[50:50 + 10]
+        if nome.find(nome_procurar) >= 0:
+            print(linha)
+            enc = True
+    if not enc:
+        print("O nome %s não existe." % nome_procurar)
+    print("Fim da Pesquisa!")
+    input("Prima Enter pra Continuar!")
+def Contar():
+    print("Contargens dos Tweets!")
+    f = open(nome_ficheiro_Tweets, "rt")
+    linhas = f.readlines()  # vector
+    np = 0
+    f.close()
+    for i in range(1, len(linhas)):
+        r = linhas[i]
+        r = r.rstrip('\n')
+        colunas = r.split('\t')  # vetor
+        Nome = colunas[0]
+        Email = colunas[1]
+        Idade = colunas[2]
+
+        np = np + 1
+    print("Numero Total de Tweets %2s!" % (np))
+    input("Prima enter para continuar")
 
 def MenuPrincipal():
     print("\n")
@@ -126,19 +257,17 @@ def MenuPrincipal():
         if op == 1:
             Inserir()
         elif op == 2:
-            print("Alterar")
+            Alterar()
         elif op == 3:
-            print("Eliminar")
+            Eliminar()
         elif op == 4:
-            print("Listar")
+            Listar()
         elif op == 5:
-            print("Pesquizar")
+            Pesquisar()
         elif op == 6:
-            print("Ordenar")
+            Contar()
         elif op == 7:
             print("Agrupar")
-        elif op == 8:
-            print("Exportar")
         elif op == 0:
             break
         break
